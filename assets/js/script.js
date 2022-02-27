@@ -1,5 +1,8 @@
 let timerEl = document.querySelector("#timer");
 let startButtonEl = document.querySelector("#start");
+let questionContainerEl = document.querySelector(".container");
+let optContainerEl = document.createElement("div");
+let ansContainerEl = document.createElement("div");
 let currentQuestion = 0;
 
 // an array of questions, answers, and answer options
@@ -54,17 +57,70 @@ let questions = [
 // FUNCTIONS
 
 let startQuiz = function() {
+  // start timer
   countdown();
-  // display first question and answer option buttons
-  // wait for click
-  // display feedback
-  // display next question/answer option buttons combo
+
+  // hide instructions and start button
+  let instructions = document.querySelector("#main");
+  instructions.textContent = "";
+  startButtonEl.style.display = "none";
+  
+  // start asking questions
+  askQuestions();
 }
 
-let displayFeedback = function() {
-  // if button clicked equals answer, display 'correct!'
-  // if button clicked doesn't equal answer, display 'wrong!'
-  // if incorrect, deduct 10 seconds from timer
+let askQuestions = function() {
+  if (questions[currentQuestion] === undefined) {
+    return false;
+  }
+  // display first/next question
+  let questionEl = document.querySelector(".title");
+  questionEl.textContent = questions[currentQuestion].question;
+  questionEl.style.textAlign = "left";
+
+  // create container div for answer option buttons
+  optContainerEl.remove();
+  optContainerEl.className = "answer-options";
+
+  questionContainerEl.appendChild(optContainerEl);
+
+  // create answer option buttons
+  let ansOptions = [questions[currentQuestion].option1, questions[currentQuestion].option2, questions[currentQuestion].option3, questions[currentQuestion].option4];
+
+  for (let i = 0; i < ansOptions.length; i++) {
+    let optionEl = document.createElement("button");
+    optionEl.textContent = ansOptions[i];
+    optionEl.className = "button";
+    optionEl.setAttribute("option", ansOptions[i]);
+    optContainerEl.appendChild(optionEl);
+  }
+}
+
+let checkAnswer = function(event) {
+  // get target element from event
+  let targetEl = event.target;
+
+  if (targetEl.matches("button")) {
+    let chosenAns = targetEl.getAttribute("option");
+    // if button clicked equals answer, display 'correct!'
+    if (chosenAns === questions[currentQuestion].answer) {
+      ansContainerEl.textContent = "Correct!";
+    }
+    // if button clicked doesn't equal answer, display 'wrong!'
+    else {
+      ansContainerEl.textContent = "Wrong!";
+      // if incorrect, deduct 10 seconds from timer
+    }
+  }
+
+  ansContainerEl.className = "feedback";
+  questionContainerEl.appendChild(ansContainerEl);
+
+  //setTimeout(ansContainerEl.remove(), 3000);
+
+  // move to next question in array and ask it
+  currentQuestion++;
+  askQuestions();
 }
 
 // countdown timer for quiz
@@ -88,3 +144,4 @@ let countdown = function() {
 }
 
 startButtonEl.addEventListener("click", startQuiz);
+optContainerEl.addEventListener("click", checkAnswer);

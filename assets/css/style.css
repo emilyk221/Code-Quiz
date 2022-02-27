@@ -29,7 +29,7 @@ header {
 }
 
 .title {
-  margin: 0 20px;
+  margin: 0;
   padding: 5px;
   font-size: 36px;
   font-weight: bolder;
@@ -43,15 +43,40 @@ header {
 
 .button {
   position: relative;
-  padding: 10px 20px;
-  margin: 10px auto;
+  padding: 10px;
+  margin: 5px;
   border-radius: 10px;
   background-color: midnightblue;
   color: white;
-  align-self: center;
   border: none;
+  width: 150px;
+  text-align: left;
+}
+
+#start {
+  align-self: center;
+  width: 100px;
+  text-align: center;
 }
 
 .button:hover {
   background-color: mediumorchid;
+}
+
+.answer-options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.feedback {
+  color: gray;
+  border-top: 1px solid gray;
+  text-align: left;
+  padding: 15px 5px;
+  margin: 20px 0;
+  font-size: 20px;
+  width: 100%;
+  order: 2;
 }
