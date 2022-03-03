@@ -50,17 +50,23 @@ header {
   color: white;
   border: none;
   width: auto;
+  min-width: 200px;
   text-align: left;
   font-size: 20px;
 }
 
 #start,
-#submit {
+#submit-btn,
+#go-back,
+#clear {
   align-self: center;
   text-align: center;
+  min-width: fit-content;
 }
 
-#submit {
+#submit-btn,
+#go-back,
+#clear {
   padding: 5px 20px;
 }
 
@@ -93,10 +99,18 @@ header {
   align-items: center;
   margin: 10px;
   font-size: 20px;
+  order: 1;
 }
 
 .form label,
 .form input {
   margin: 5px;
   font-size: 20px;
+}
+
+.highscore-table {
+  margin: 10px 15px;
+  padding: 10px 30px;
+  font-size: 20px;
+  background-color: aliceblue;
 }
