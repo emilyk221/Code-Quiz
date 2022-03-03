@@ -36,7 +36,7 @@ header {
 }
 
 #main {
-  margin: 20px 10px;
+  margin: 10px;
   padding: 5px;
   font-size: 20px;
 }
@@ -113,4 +113,9 @@ header {
   padding: 10px 30px;
   font-size: 20px;
   background-color: aliceblue;
+}
+
+.score-list-item {
+  text-align: left;
+  padding: 10px 0;
 }

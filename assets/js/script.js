@@ -1,6 +1,7 @@
 let timerEl = document.querySelector("#timer");
 let startButtonEl = document.querySelector("#start");
 let questionContainerEl = document.querySelector(".container");
+let highScoresEl = document.querySelector("#high-scores");
 let optContainerEl = document.createElement("div");
 let ansContainerEl = document.createElement("div");
 let formEl = document.querySelector(".form");
@@ -121,10 +122,12 @@ let checkAnswer = function(event) {
     // if button clicked equals answer, display 'correct!'
     if (chosenAns === questions[currentQuestion].answer) {
       ansContainerEl.textContent = "Correct!";
+      clearFeedback();
     }
     // if button clicked doesn't equal answer, display 'wrong!'
     else if (chosenAns !== questions[currentQuestion].answer) {
       ansContainerEl.textContent = "Wrong!";
+      clearFeedback();
       // if wrong, deduct ten seconds from timer
       timeLeft -= 10;
       timerEl.textContent = "Time: " + timeLeft;
@@ -171,6 +174,8 @@ let saveScore = function(event) {
     score: scoreTime
   };
 
+  highScores = localStorage.getItem("highScores");
+  highScores = JSON.parse(highScores);
   // add new score object to high scores array
   highScores.push(highScoresObj);
 
@@ -179,7 +184,7 @@ let saveScore = function(event) {
 
   // sort scores from high to low
   sortHighScores();
-  displayHighScores();
+  //displayHighScores();
 }
 
 let displayHighScores = function() {
@@ -190,22 +195,28 @@ let displayHighScores = function() {
   formBoxEl.style.display = "none";
   submitBtnEl.style.display = "none";
   ansContainerEl.style.display = "none";
+  let headerEl = document.querySelector(".header");
+  headerEl.style.display = "none";
+
 
   // display high scores title
   let titleEl = document.querySelector(".title");
   titleEl.textContent = "High Scores";
   titleEl.style.textAlign = "left";
 
-  //display high scores chart
+  //display high scores table
   let scoresContainerEl = document.createElement("ol");
   scoresContainerEl.className = "highscore-table";
   questionContainerEl.appendChild(scoresContainerEl);
 
+  let highScores = localStorage.getItem("highScores");
+  highScores = JSON.parse(highScores);
+
   for (i = 0; i < highScores.length; i++) {
     let scoreListEl = document.createElement("li");
     scoreListEl.textContent = highScores[i].initials + " - " + highScores[i].score;
+    scoreListEl.className = "score-list-item";
     scoresContainerEl.appendChild(scoreListEl);
-    scoreListEl.style.textAlign = "left";
   }
 
   // add back and clear buttons
@@ -224,7 +235,7 @@ let displayHighScores = function() {
 
 let sortHighScores = function() {
   // get high scores from local storage
-  let scoresArr = localStorage.getItem("highScores", highScores);
+  let scoresArr = localStorage.getItem("highScores");
   if (!scoresArr) {
     return false;
   }
@@ -236,9 +247,15 @@ let sortHighScores = function() {
   let newHighScores = scoresArr.sort((a, b) => {
     return b.score - a.score;
   });
-  //return newHighScores;
 
-  console.log(newHighScores);
+  // only keep top five high scores
+  if (newHighScores.length > 5) {
+    newHighScores.pop();
+  }
+
+  localStorage.setItem("highScores", JSON.stringify(newHighScores));
+
+  displayHighScores();
 }
 
 let buttonHandler = function(event) {
@@ -252,10 +269,22 @@ let buttonHandler = function(event) {
   // clear button was clicked
   else if (targetEl.matches("#clear")) {
     // hide scores table
+    let scoresContainerEl = document.querySelector("ol");
+    scoresContainerEl.style.display = "none";
 
-    highScores = [];
+    // clear high scores from local storage
+    let scoresArr = localStorage.getItem("highScores");
+    scoresArr = JSON.parse(scoresArr);
+    scoresArr = [];
+    localStorage.setItem("highScores", JSON.stringify(scoresArr));
   }
 };
+
+let clearFeedback = function() {
+  let displayInterval = setTimeout(function() {
+    ansContainerEl.textContent = "";
+  }, 2000);
+}
 
 // countdown timer for quiz
 let countdown = function() {
@@ -286,4 +315,5 @@ formEl.style.display = "none";
 startButtonEl.addEventListener("click", startQuiz);
 optContainerEl.addEventListener("click", checkAnswer);
 submitBtnEl.addEventListener("click", saveScore);
-formEl.addEventListener("click", buttonHandler)
+formEl.addEventListener("click", buttonHandler);
+highScoresEl.addEventListener("click", displayHighScores);
