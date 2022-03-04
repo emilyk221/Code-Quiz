@@ -20,4 +20,5 @@ All of the elements on the page are dynamically manipulated using JavaScript and
 
 ## Resources
 
-I used [stack overflow](https://stackoverflow.com/questions) to search for answers to my questions related to timers, manipulating timers, local storage, and sorting an array of objects based on one value.
+- I used [stack overflow](https://stackoverflow.com/questions) to search for answers to my questions related to timers, manipulating timers, local storage, and sorting an array of objects based on one value.
+- [W3 Schools'](https://www.w3schools.com/jsref/jsref_pop.asp) information on JavaScript's pop() method.
