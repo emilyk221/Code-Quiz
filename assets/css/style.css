@@ -68,6 +68,7 @@ header {
 #go-back,
 #clear {
   padding: 5px 20px;
+  margin: 10px 5px;
 }
 
 .button:hover {
@@ -108,14 +109,31 @@ header {
   font-size: 20px;
 }
 
+.highscore {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 5px;
+}
+
 .highscore-table {
-  margin: 10px 15px;
-  padding: 10px 30px;
+  margin: 10px;
+  padding: 10px 0;
   font-size: 20px;
-  background-color: aliceblue;
+  list-style-type: none;
+  text-align: left;
 }
 
 .score-list-item {
   text-align: left;
-  padding: 10px 0;
+  padding: 10px;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+li:nth-child(odd) {
+  background-color:lavender;
 }

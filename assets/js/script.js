@@ -121,11 +121,13 @@ let checkAnswer = function(event) {
 
     // if button clicked equals answer, display 'correct!'
     if (chosenAns === questions[currentQuestion].answer) {
+      ansContainerEl.style.display = "flex";
       ansContainerEl.textContent = "Correct!";
       clearFeedback();
     }
     // if button clicked doesn't equal answer, display 'wrong!'
     else if (chosenAns !== questions[currentQuestion].answer) {
+      ansContainerEl.style.display = "flex";
       ansContainerEl.textContent = "Wrong!";
       clearFeedback();
       // if wrong, deduct ten seconds from timer
@@ -184,13 +186,13 @@ let saveScore = function(event) {
 
   // sort scores from high to low
   sortHighScores();
-  //displayHighScores();
 }
 
 let displayHighScores = function() {
   // hide other elements
   let scoreEl = document.querySelector("#main");
   scoreEl.style.display = "none";
+  startButtonEl.style.display = "none";
   formTextEl.style.display = "none";
   formBoxEl.style.display = "none";
   submitBtnEl.style.display = "none";
@@ -205,32 +207,40 @@ let displayHighScores = function() {
   titleEl.style.textAlign = "left";
 
   //display high scores table
-  let scoresContainerEl = document.createElement("ol");
-  scoresContainerEl.className = "highscore-table";
+  let scoresContainerEl = document.createElement("div");
+  scoresContainerEl.className = "highscore";
   questionContainerEl.appendChild(scoresContainerEl);
+
+  let scoresListEl = document.createElement("ul");
+  scoresListEl.className = "highscore-table";
+  scoresContainerEl.appendChild(scoresListEl);
 
   let highScores = localStorage.getItem("highScores");
   highScores = JSON.parse(highScores);
 
   for (i = 0; i < highScores.length; i++) {
-    let scoreListEl = document.createElement("li");
-    scoreListEl.textContent = highScores[i].initials + " - " + highScores[i].score;
-    scoreListEl.className = "score-list-item";
-    scoresContainerEl.appendChild(scoreListEl);
+    let scoreListItemEl = document.createElement("li");
+    scoreListItemEl.textContent = (i + 1) + ". " + highScores[i].initials + " - " + highScores[i].score;
+    scoreListItemEl.className = "score-list-item";
+    scoresListEl.appendChild(scoreListItemEl);
   }
 
   // add back and clear buttons
+  let buttonsContainerEl = document.createElement("div");
+  buttonsContainerEl.className = "btn-container";
+  scoresContainerEl.appendChild(buttonsContainerEl);
+
   let backBtnEl = document.createElement("button");
   backBtnEl.textContent = "Go back";
   backBtnEl.className = "button";
   backBtnEl.id = "go-back";
-  formEl.appendChild(backBtnEl);
+  buttonsContainerEl.appendChild(backBtnEl);
 
   let clearBtnEl = document.createElement("button");
   clearBtnEl.textContent = "Clear high scores";
   clearBtnEl.className = "button";
   clearBtnEl.id = "clear";
-  formEl.appendChild(clearBtnEl);
+  buttonsContainerEl.appendChild(clearBtnEl);
 }
 
 let sortHighScores = function() {
@@ -269,8 +279,8 @@ let buttonHandler = function(event) {
   // clear button was clicked
   else if (targetEl.matches("#clear")) {
     // hide scores table
-    let scoresContainerEl = document.querySelector("ol");
-    scoresContainerEl.style.display = "none";
+    let scoreListEl = document.querySelector("ul");
+    scoreListEl.style.display = "none";
 
     // clear high scores from local storage
     let scoresArr = localStorage.getItem("highScores");
@@ -280,9 +290,10 @@ let buttonHandler = function(event) {
   }
 };
 
+// hide feedback after displayed for 2 seconds
 let clearFeedback = function() {
-  let displayInterval = setTimeout(function() {
-    ansContainerEl.textContent = "";
+  setTimeout(function() {
+    ansContainerEl.style.display = "none";
   }, 2000);
 }
 
@@ -315,5 +326,5 @@ formEl.style.display = "none";
 startButtonEl.addEventListener("click", startQuiz);
 optContainerEl.addEventListener("click", checkAnswer);
 submitBtnEl.addEventListener("click", saveScore);
-formEl.addEventListener("click", buttonHandler);
+questionContainerEl.addEventListener("click", buttonHandler);
 highScoresEl.addEventListener("click", displayHighScores);
