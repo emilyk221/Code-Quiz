@@ -178,6 +178,9 @@ let saveScore = function(event) {
 
   highScores = localStorage.getItem("highScores");
   highScores = JSON.parse(highScores);
+  if (!highScores) {
+    highScores = [];
+  }
   // add new score object to high scores array
   highScores.push(highScoresObj);
 
