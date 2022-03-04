@@ -1,3 +1,4 @@
+// define elements
 let timerEl = document.querySelector("#timer");
 let startButtonEl = document.querySelector("#start");
 let questionContainerEl = document.querySelector(".container");
@@ -15,7 +16,6 @@ let highScores = [];
 // an array of questions, answers, and answer options
 let questions = [
   {
-    id: 0,
     question: "Commonly used data types do NOT include:",
     option1: "1. strings",
     option2: "2. boolean",
@@ -24,7 +24,6 @@ let questions = [
     answer: "3. alerts"
   },
   {
-    id: 1,
     question: "The condition in an if / else statement is enclosed with ________.",
     option1: "1. quotes",
     option2: "2. curly brackets",
@@ -33,7 +32,6 @@ let questions = [
     answer: "3. parenthesis"
   },
   {
-    id: 2,
     question: "Arrays in JavaScript can be used to store _________.",
     option1: "1. numbers and strings",
     option2: "2. other arrays",
@@ -42,7 +40,6 @@ let questions = [
     answer: "4. all of the above"
   },
   {
-    id: 3,
     question: "String values must be enclosed within _______ when being assigned to variables.",
     option1: "1. commas",
     option2: "2. curly brackets",
@@ -51,7 +48,6 @@ let questions = [
     answer: "3. quotes"
   },
   {
-    id: 4,
     question: "A very useful tool used during development and debugging for printing content to the debugger is:",
     option1: "1. JavaScript",
     option2: "2. terminal/bash",
@@ -95,11 +91,15 @@ let askQuestions = function() {
 
     for (let i = 0; i < ansOptions.length; i++) {
       let buttonExists = document.getElementById("btn" + i);
+
+      // if answer option buttons already exist, change text content to match current question being asked
       if (buttonExists) {
         let optionEl = document.getElementById("btn" + i);
         optionEl.textContent = ansOptions[i];
         optionEl.setAttribute("option", ansOptions[i]);
       }
+
+      //if answer option buttons don't exist, create them
       else {
         let optionEl = document.createElement("button");
         optionEl.textContent = ansOptions[i];
@@ -199,7 +199,6 @@ let displayHighScores = function() {
   ansContainerEl.style.display = "none";
   let headerEl = document.querySelector(".header");
   headerEl.style.display = "none";
-
 
   // display high scores title
   let titleEl = document.querySelector(".title");
@@ -306,11 +305,13 @@ let countdown = function() {
       clearInterval(timeInterval);
       endQuiz();
     }
+    // display time left
     if (timeLeft >= 1) {
       timerEl.setAttribute("score", timeLeft);
       timerEl.textContent = "Time: " + timeLeft;
       timeLeft--;
     }
+    // if timer reaches 0, stop timer, display time of 0, and end quiz
     else {
       timerEl.textContent = "Time: 0";
       timerEl.setAttribute("score", 0);
